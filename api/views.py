@@ -17,7 +17,20 @@ class TaskViewSet(viewsets.ModelViewSet):
         if status_param:
             qs = qs.filter(status=status_param)
         return qs
-
+    
+    @action(detail=False, methods=["get"], url_path="my", url_name="my")
+    def my(self, request):
+        """
+        GET /api/tasks/my/ → only the current user's tasks (paginated)
+        """
+        qs = self.get_queryset().filter(user=request.user)
+        page = self.paginate_queryset(qs)
+        if page is not None:
+            ser = self.get_serializer(page, many=True)
+            return self.get_paginated_response(ser.data)
+        ser = self.get_serializer(qs, many=True)
+        return Response(ser.data)
+    
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 

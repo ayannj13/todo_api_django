@@ -60,6 +60,31 @@ Note: PostgreSQL server itself is not a Python package, so it’s not listed her
 Here, API will be available at: http://127.0.0.1:8000/api/ 
 and Admin panel: http://127.0.0.1:8000/admin/
 
+## Run with Docker
+**Prerequisite:** Install and run Docker Desktop.
+
+1. **Copy env template and adjust values if needed**:
+   cp .env.example .env
+
+This creates your local `.env` file from the template.  
+Update it with any custom values if it's needed (by default it will just work).
+
+2. **Build & start**:
+   docker compose up -d --build
+
+3. **Create an admin inside the container**:
+   docker compose exec web python manage.py createsuperuser
+
+4. **Open**:
+- API root: http://127.0.0.1:8000/api/
+- Admin: http://127.0.0.1:8000/admin/
+
+5. **Run tests inside the container (optional for checking)**:
+   docker compose exec web python manage.py test api -v 2
+
+6. **Stop**:
+   docker compose down
+
 ## Authentication (JWT)
 
 7. **Get a JWT token by sending username/password**:

@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 
@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-&xq5$3)ks-=v-5g72fro2hc-ru2g7p9xz2s_2y17rydow7_2@(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(",")
 
 
 # Application definition
@@ -78,15 +78,16 @@ WSGI_APPLICATION = "todo_project.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'todo_db',
-        'USER': 'ayan',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '5432',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get("POSTGRES_DB", "todo_db"),
+        "USER": os.environ.get("POSTGRES_USER", "ayan"),      # fallback for local dev
+        "PASSWORD": os.environ.get("POSTGRES_PASSWORD", ""),  # fallback for local dev
+        "HOST": os.environ.get("POSTGRES_HOST", "localhost"), 
+        "PORT": os.environ.get("POSTGRES_PORT", "5432"),
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

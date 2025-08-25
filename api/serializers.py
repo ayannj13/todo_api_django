@@ -1,5 +1,8 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from .models import Task
+
+User = get_user_model()
 
 class TaskSerializer(serializers.ModelSerializer):
     # show the owner as text; we’ll set it automatically on create
@@ -13,10 +16,6 @@ class TaskSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data["user"] = self.context["request"].user
         return super().create(validated_data)
-    
-from django.contrib.auth import get_user_model
-from rest_framework import serializers
-User = get_user_model()
 
 class RegisterSerializer(serializers.ModelSerializer):
     # enforce min length 6 per the task

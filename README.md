@@ -61,6 +61,7 @@ Here, API will be available at: http://127.0.0.1:8000/api/
 and Admin panel: http://127.0.0.1:8000/admin/
 
 ## Run with Docker
+
 **Prerequisite:** Install and run Docker Desktop.
 
 1. **Copy env template and adjust values if needed**:
@@ -85,19 +86,28 @@ Update it with any custom values if it's needed (by default it will just work).
 6. **Stop**:
    docker compose down
 
-## Authentication (JWT)
+## Authentication (JWT) and Registration
 
-7. **Get a JWT token by sending username/password**:
+7. **Register (sign up)**  
+Create a user account via the public endpoint:
+
+   curl -X POST http://127.0.0.1:8000/api/register/ \
+   -H "Content-Type: application/json" \
+   -d '{"username":"your_user","first_name":"Your","last_name":"Name","password":"your_pass"}'
+
+**You should consider that password must be 6+ characters. Also, it is write-only and never returned in responses.**
+
+8. **Get a JWT token by sending username/password**:
    curl -X POST http://127.0.0.1:8000/api/token/ \
    -H "Content-Type: application/json" \
    -d '{"username": "your_user", "password": "your_pass"}' #give username and password in the respective fields.
 
 The response will be shown as an access and refresh token. 
 
-8. **Copy the value of "access" and export it as TOKEN**:
+9. **Copy the value of "access" and export it as TOKEN**:
 Export your token once so you don’t need to paste it every time:
 
-   export TOKEN='your_access_token_here'
+   export TOKEN='put the access token here.'
 
 Now you can use **$TOKEN** in all requests given below.
 

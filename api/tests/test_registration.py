@@ -5,6 +5,7 @@ User = get_user_model()
 
 class RegistrationTests(APITestCase):
     def test_user_can_register_and_get_token(self):
+        #register
         res = self.client.post(
             "/api/register/",
             {
